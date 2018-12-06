@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LFRFID</string>
+    <string name="BtnStr_Close">关闭程序</string>
+    <string name="BtnStr_Clear">清屏</string>
+    <string name="StrNull"></string>
+    <string name="Status_OpenSerialFail">打开串口失败</string>
+    <string name="Status_OpenDevFileFail">打开设备文件失败</string>
+    <string name="Status_ManipulateFail">操作设备失败</string>
+
+    <string name="DEV_OPEN_ERR">打开设备失败！软件关闭！</string>
+    <string name="DIA_ALERT">警告！</string>
+    <string name="DIA_CHECK">确认</string>
+</resources>

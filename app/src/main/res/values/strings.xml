@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LFRFID</string>
+    <string name="BtnStr_Close">Close App</string>
+    <string name="BtnStr_Clear">Clear</string>
+    <string name="StrNull"></string>
+    <string name="Status_OpenSerialFail">Open SerialPort Failed</string>
+    <string name="Status_OpenDevFileFail">Open DevFile Failed</string>
+    <string name="Status_ManipulateFail">Manipulate Device Failed</string>
+
+    <string name="DEV_OPEN_ERR">Device open failed！Software will quit！</string>
+    <string name="DIA_ALERT">Warning！</string>
+    <string name="DIA_CHECK">Confirm</string>
+</resources>

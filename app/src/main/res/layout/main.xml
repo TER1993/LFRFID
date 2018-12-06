@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/SCROLLER_ID"
+        android:layout_width="match_parent"
+        android:layout_height="401dp"
+        android:layout_marginTop="20dip"
+        android:fillViewport="true"
+        android:scrollbars="vertical" >
+
+        <TextView
+            android:textColor="@android:color/black"
+            android:id="@+id/tv_content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/StrNull"
+            android:textSize="20dip" />
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.33" >
+
+        <ToggleButton
+            android:id="@+id/toggleButton_power"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.16"
+            android:text="ToggleButton" />
+
+        <Button
+            android:id="@+id/button_clear"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.16"
+            android:text="@string/BtnStr_Clear" />
+
+        <Button
+            android:id="@+id/button_close"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.16"
+            android:text="@string/BtnStr_Close" />
+
+    </LinearLayout>
+
+</LinearLayout>
