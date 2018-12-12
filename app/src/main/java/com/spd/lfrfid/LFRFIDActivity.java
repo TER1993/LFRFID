@@ -1,18 +1,9 @@
-package cn.geomobile.lfrfid;
+package com.spd.lfrfid;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import com.android.lflibs.serial_native;
-import com.android.lflibs.DeviceControl;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +16,16 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.android.lflibs.DeviceControl;
+import com.android.lflibs.serial_native;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+
+/**
+ * @author xuyan
+ */
 public class LFRFIDActivity extends Activity implements OnCheckedChangeListener, OnClickListener {
     /** Called when the activity is first created. */
 	private DeviceControl DevCtrl;
@@ -51,7 +52,8 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
 	private int count4=0;
 	private int count5=0;
 	
-    @Override
+    @SuppressLint("HandlerLeak")
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
@@ -318,6 +320,8 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
 								    		//  break;
 				                          }	
         			    break;
+        			    	default:
+        			    		break;
         			    } 
         			}
            		  
@@ -411,6 +415,7 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
 	}
 	
 	class ReadThread extends Thread {
+		@Override
 		public void run() {
 			super.run();
 			Log.d("lfrfid", "thread start");
