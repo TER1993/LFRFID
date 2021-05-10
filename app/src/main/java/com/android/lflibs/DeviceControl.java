@@ -17,13 +17,15 @@ public class DeviceControl
 	
 	public void PowerOnDevice() throws IOException		//poweron lf device
 	{
-		CtrlFile.write("-wdout94 1");//64
+		//CtrlFile.write("-wdout94 1");//64
+		CtrlFile.write("-wdout12 1");//12
 		CtrlFile.flush();
 	}
 	
 	public void PowerOffDevice() throws IOException	//poweroff lf device
 	{
-  		CtrlFile.write("-wdout94 0");//64
+  		//CtrlFile.write("-wdout94 0");//64
+  		CtrlFile.write("-wdout12 0");//12
   		CtrlFile.flush();
 	}
 	public void DeviceClose() throws IOException		//close file

@@ -31,7 +31,8 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
      * Called when the activity is first created.
      */
     private DeviceControl DevCtrl;
-    private static final String SERIALPORT_PATH = "/dev/ttyMT2";
+    //private static final String SERIALPORT_PATH = "/dev/ttyMT2";
+    private static final String SERIALPORT_PATH = "/dev/ttyMT0";
     private static final int BUFSIZE = 64;
 
     private ToggleButton powerBtn;
@@ -80,7 +81,10 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
         }
 
         try {
-            DevCtrl = new DeviceControl("/sys/class/misc/mtgpio/pin");
+            //MTK(6737)平台安卓6.0及以下版本 主板上电路径（例如：kt55、kt50、kt80、kt40、sk100）
+            //DevCtrl = new DeviceControl("/sys/class/misc/mtgpio/pin");
+            //MTK(6763)平台安卓8.1版本  主板上电路径(例如：SD55、SD60)
+            DevCtrl = new DeviceControl("/sys/bus/platform/drivers/mediatek-pinctrl/10005000.pinctrl/mt_gpio");
 
         } catch (SecurityException e) {
             e.printStackTrace();
