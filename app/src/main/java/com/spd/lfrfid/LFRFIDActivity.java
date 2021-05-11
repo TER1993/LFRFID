@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.serialport.DeviceControlSpd;
+import android.serialport.SerialPortSpd;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,7 +18,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.android.lflibs.DeviceControl;
 import com.android.lflibs.serial_native;
 
 import java.io.BufferedWriter;
@@ -30,7 +31,7 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
     /**
      * Called when the activity is first created.
      */
-    private DeviceControl DevCtrl;
+    //private DeviceControl DevCtrl;
     //private static final String SERIALPORT_PATH = "/dev/ttyMT2";
     private static final String SERIALPORT_PATH = "/dev/ttyMT0";
     private static final int BUFSIZE = 64;
@@ -55,6 +56,9 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
     private int count4 = 0;
     private int count5 = 0;
 
+    private SerialPortSpd serialPortSpd;
+    private DeviceControlSpd deviceControlSpd;
+
     @SuppressLint("HandlerLeak")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,13 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
 
         contView = (TextView) findViewById(R.id.tv_content);
 
+//        serialPortSpd = new SerialPortSpd();
+//        try {
+//            serialPortSpd.OpenSerial(SerialPortSpd.SERIAL_TTYMT0,115200);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
         NativeDev = new serial_native();
         if (NativeDev.OpenComPort(SERIALPORT_PATH) < 0) {
             contView.setText(R.string.Status_OpenSerialFail);
@@ -84,7 +95,9 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
             //MTK(6737)平台安卓6.0及以下版本 主板上电路径（例如：kt55、kt50、kt80、kt40、sk100）
             //DevCtrl = new DeviceControl("/sys/class/misc/mtgpio/pin");
             //MTK(6763)平台安卓8.1版本  主板上电路径(例如：SD55、SD60)
-            DevCtrl = new DeviceControl("/sys/bus/platform/drivers/mediatek-pinctrl/10005000.pinctrl/mt_gpio");
+            //DevCtrl = new DeviceControl("/sys/bus/platform/drivers/mediatek-pinctrl/10005000.pinctrl/mt_gpio");
+            deviceControlSpd = new DeviceControlSpd(DeviceControlSpd.PowerType.NEW_MAIN, 12);
+
 
         } catch (SecurityException e) {
             e.printStackTrace();
@@ -398,7 +411,8 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
         if (powerBtn.isChecked()) {
             try {
                 reader.interrupt();
-                DevCtrl.PowerOffDevice();
+                //DevCtrl.PowerOffDevice();
+                deviceControlSpd.PowerOffDevice();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -412,7 +426,8 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
         // TODO Auto-generated method stub
         if (arg1) {
             try {
-                DevCtrl.PowerOnDevice();
+                //DevCtrl.PowerOnDevice();
+                deviceControlSpd.PowerOnDevice();
                 try {
                     Thread.sleep(5);
                 } catch (InterruptedException e) {
@@ -435,7 +450,8 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                DevCtrl.PowerOffDevice();
+                //DevCtrl.PowerOffDevice();
+                deviceControlSpd.PowerOffDevice();
 //				contView.setText(" status is " + powerBtn.isChecked());
             } catch (IOException e) {
                 contView.setText(R.string.Status_ManipulateFail);
