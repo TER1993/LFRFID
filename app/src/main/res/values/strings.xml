@@ -3,7 +3,7 @@
     <string name="app_name">LFRFID</string>
     <string name="BtnStr_Close">Close App</string>
     <string name="BtnStr_Clear">Clear</string>
-    <string name="StrNull"></string>
+    <string name="StrNull" />
     <string name="Status_OpenSerialFail">Open SerialPort Failed</string>
     <string name="Status_OpenDevFileFail">Open DevFile Failed</string>
     <string name="Status_ManipulateFail">Manipulate Device Failed</string>
