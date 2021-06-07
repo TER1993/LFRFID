@@ -118,7 +118,7 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                 super.handleMessage(msg);
                 if (msg.what == 1) {
                     byte[] buf = (byte[]) msg.obj;
-                    if (buf.length == 30) {
+                    if (buf.length == 30 && buf[0] == (byte) 0x02 && (buf[29] == 0x03 || (buf[29] == 0x07))) {
                         for (int a = 1; a < 27; a++) {
                             xor_result ^= buf[a];
                         }
@@ -382,27 +382,28 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                             default:
                                 break;
                         }
-                    } else if (buf.length >= 24) {
-                        String cnt = new String(buf);
-                        count0 = Integer.parseInt(cnt.substring(1, 3), 16);
-                        count1 = Integer.parseInt(cnt.substring(3, 5), 16);
-                        count2 = Integer.parseInt(cnt.substring(5, 7), 16);
-                        count3 = Integer.parseInt(cnt.substring(7, 9), 16);
-                        count4 = Integer.parseInt(cnt.substring(9, 11), 16);
-                        count5 = count0 ^ count1 ^ count2 ^ count3 ^ count4;
-                        byte[] b = new byte[4];
-                        b[0] = (byte) (count5 & 0xff);
-                        if (b[0] == buf[11]) {
-                            contView.setTextSize(30);
-                            contView.append(cnt.substring(1, cnt.length() - 2));
-                            contView.append("\n");
-                        }
-                    } else {
-                        String cnt2 = new String(buf);
-                        contView.setTextSize(30);
-                        contView.append(cnt2);
-                        contView.append("\n");
                     }
+//                    else if (buf.length >= 24) {
+//                        String cnt = new String(buf);
+//                        count0 = Integer.parseInt(cnt.substring(1, 3), 16);
+//                        count1 = Integer.parseInt(cnt.substring(3, 5), 16);
+//                        count2 = Integer.parseInt(cnt.substring(5, 7), 16);
+//                        count3 = Integer.parseInt(cnt.substring(7, 9), 16);
+//                        count4 = Integer.parseInt(cnt.substring(9, 11), 16);
+//                        count5 = count0 ^ count1 ^ count2 ^ count3 ^ count4;
+//                        byte[] b = new byte[4];
+//                        b[0] = (byte) (count5 & 0xff);
+//                        if (b[0] == buf[11]) {
+//                            contView.setTextSize(30);
+//                            contView.append(cnt.substring(1, cnt.length() - 2));
+//                            contView.append("\n");
+//                        }
+//                    } else {
+//                        String cnt2 = new String(buf);
+//                        contView.setTextSize(30);
+//                        contView.append(cnt2);
+//                        contView.append("\n");
+//                    }
                 }
             }
         };
@@ -480,7 +481,8 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
 
                 byte[] buf = new byte[BUFSIZE];
                 try {
-                    buf = serialPortSpd.ReadSerial(fd, BUFSIZE);
+                    serialPortSpd.clearPortBuf(fd);
+                    buf = serialPortSpd.ReadSerial(fd, BUFSIZE, 400);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
