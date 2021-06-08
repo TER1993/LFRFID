@@ -103,7 +103,9 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                 if (msg.what == 1) {
                     byte[] buf = (byte[]) msg.obj;
                     if (buf.length == 30 && buf[0] == (byte) 0x02 && (buf[29] == 0x03 || (buf[29] == 0x07))) {
-                        for (int a = 1; a < 27; a++) {
+                        if (encrypt(buf) == buf[27]) {
+                            //校验结果是否为27
+                            Log.d("lfrfid", "xor done");
                         }
                         String cnt = new String(buf);
                         String[] serial_number = new String[30];
@@ -462,4 +464,18 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
             Log.d("lfrfid", "thread stop");
         }
     }
+
+
+    public byte encrypt(byte[] bytes) {
+
+        byte result = bytes[1];
+
+        for (int i = 2; i < 27; i++) {
+            result = (byte) (result ^ bytes[i]);
+
+        }
+        return result;
+    }
+
+
 }
