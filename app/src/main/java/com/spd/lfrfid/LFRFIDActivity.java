@@ -18,20 +18,14 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
- * @author xuyan
+ * @author xuyan  低频LFdemo
  */
 public class LFRFIDActivity extends Activity implements OnCheckedChangeListener, OnClickListener {
-    /**
-     * Called when the activity is first created.
-     */
 
-    //private static final String SERIALPORT_PATH = "/dev/ttyMT2";
     private static final int BUFSIZE = 64;
 
     private ToggleButton powerBtn;
@@ -39,20 +33,10 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
     private Button closeBtn;
     private TextView contView;
 
-    private File device_path;
-    private BufferedWriter proc;
-
     private Handler handler;
     private ReadThread reader;
-    //	private long dec_result;
+
     private int size = 0;
-    private byte xor_result = 0;
-    private int count0 = 0;
-    private int count1 = 0;
-    private int count2 = 0;
-    private int count3 = 0;
-    private int count4 = 0;
-    private int count5 = 0;
 
     private SerialPortSpd serialPortSpd;
     private DeviceControlSpd deviceControlSpd;
@@ -64,16 +48,16 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        powerBtn = (ToggleButton) findViewById(R.id.toggleButton_power);
+        powerBtn = findViewById(R.id.toggleButton_power);
         powerBtn.setOnCheckedChangeListener(this);
 
-        clearBtn = (Button) findViewById(R.id.button_clear);
+        clearBtn = findViewById(R.id.button_clear);
         clearBtn.setOnClickListener(this);
 
-        closeBtn = (Button) findViewById(R.id.button_close);
+        closeBtn = findViewById(R.id.button_close);
         closeBtn.setOnClickListener(this);
 
-        contView = (TextView) findViewById(R.id.tv_content);
+        contView = findViewById(R.id.tv_content);
 
         serialPortSpd = new SerialPortSpd();
         try {
@@ -120,7 +104,6 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                     byte[] buf = (byte[]) msg.obj;
                     if (buf.length == 30 && buf[0] == (byte) 0x02 && (buf[29] == 0x03 || (buf[29] == 0x07))) {
                         for (int a = 1; a < 27; a++) {
-                            xor_result ^= buf[a];
                         }
                         String cnt = new String(buf);
                         String[] serial_number = new String[30];
@@ -383,27 +366,6 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                                 break;
                         }
                     }
-//                    else if (buf.length >= 24) {
-//                        String cnt = new String(buf);
-//                        count0 = Integer.parseInt(cnt.substring(1, 3), 16);
-//                        count1 = Integer.parseInt(cnt.substring(3, 5), 16);
-//                        count2 = Integer.parseInt(cnt.substring(5, 7), 16);
-//                        count3 = Integer.parseInt(cnt.substring(7, 9), 16);
-//                        count4 = Integer.parseInt(cnt.substring(9, 11), 16);
-//                        count5 = count0 ^ count1 ^ count2 ^ count3 ^ count4;
-//                        byte[] b = new byte[4];
-//                        b[0] = (byte) (count5 & 0xff);
-//                        if (b[0] == buf[11]) {
-//                            contView.setTextSize(30);
-//                            contView.append(cnt.substring(1, cnt.length() - 2));
-//                            contView.append("\n");
-//                        }
-//                    } else {
-//                        String cnt2 = new String(buf);
-//                        contView.setTextSize(30);
-//                        contView.append(cnt2);
-//                        contView.append("\n");
-//                    }
                 }
             }
         };
@@ -482,7 +444,7 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                 byte[] buf = new byte[BUFSIZE];
                 try {
                     serialPortSpd.clearPortBuf(fd);
-                    buf = serialPortSpd.ReadSerial(fd, BUFSIZE, 400);
+                    buf = serialPortSpd.ReadSerial(fd, BUFSIZE, 300);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
