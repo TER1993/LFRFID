@@ -61,7 +61,8 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
 
         serialPortSpd = new SerialPortSpd();
         try {
-            serialPortSpd.OpenSerial(SerialPortSpd.SERIAL_TTYMT0, 9600);
+
+            serialPortSpd.OpenSerial(SerialPortSpd.SERIAL_TTYMT2, 9600);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,7 +79,7 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
             //DevCtrl = new DeviceControl("/sys/class/misc/mtgpio/pin");
             //MTK(6763)平台安卓8.1版本  主板上电路径(例如：SD55、SD60)
             //DevCtrl = new DeviceControl("/sys/bus/platform/drivers/mediatek-pinctrl/10005000.pinctrl/mt_gpio");
-            deviceControlSpd = new DeviceControlSpd(DeviceControlSpd.PowerType.NEW_MAIN, 12);
+            deviceControlSpd = new DeviceControlSpd(DeviceControlSpd.PowerType.MAIN, 94);
 
         } catch (SecurityException e) {
             e.printStackTrace();
