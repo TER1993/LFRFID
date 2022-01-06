@@ -368,6 +368,21 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                             default:
                                 break;
                         }
+                    } else if (buf.length == 13 && buf[0] == (byte) 0x02 && ((buf[12] == 0x03) || (buf[12] == 0x07))) {
+                        String cnt = new String(buf);
+                        int count0 = Integer.parseInt(cnt.substring(1, 3), 16);
+                        int count1 = Integer.parseInt(cnt.substring(3, 5), 16);
+                        int count2 = Integer.parseInt(cnt.substring(5, 7), 16);
+                        int count3 = Integer.parseInt(cnt.substring(7, 9), 16);
+                        int count4 = Integer.parseInt(cnt.substring(9, 11), 16);
+                        int count5 = count0 ^ count1 ^ count2 ^ count3 ^ count4;
+                        byte[] b = new byte[4];
+                        b[0] = (byte) (count5 & 0xff);
+                        if (b[0] == buf[11]) {
+                            contView.setTextSize(30);
+                            contView.append(cnt.substring(1, cnt.length() - 2));
+                            contView.append("\n");
+                        }
                     }
                 }
             }
