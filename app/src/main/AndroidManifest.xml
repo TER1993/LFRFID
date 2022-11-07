@@ -13,7 +13,8 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
             android:name=".LFRFIDActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            tools:ignore="IntentFilterExportedReceiver,RedundantLabel">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

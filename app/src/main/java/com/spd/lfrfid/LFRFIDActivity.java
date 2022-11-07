@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
- * @author xuyan  低频LFdemo
+ * @author xuyan  低频LFdemo  6762平台
  */
 public class LFRFIDActivity extends Activity implements OnCheckedChangeListener, OnClickListener {
 
@@ -61,7 +61,7 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
 
         serialPortSpd = new SerialPortSpd();
         try {
-            serialPortSpd.OpenSerial(SerialPortSpd.SERIAL_TTYMT0, 9600);
+            serialPortSpd.OpenSerial(SerialPortSpd.SERIAL_TTYS1, 9600);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
             //DevCtrl = new DeviceControl("/sys/class/misc/mtgpio/pin");
             //MTK(6763)平台安卓8.1版本  主板上电路径(例如：SD55、SD60)
             //DevCtrl = new DeviceControl("/sys/bus/platform/drivers/mediatek-pinctrl/10005000.pinctrl/mt_gpio");
-            deviceControlSpd = new DeviceControlSpd(DeviceControlSpd.PowerType.NEW_MAIN, 12);
+            deviceControlSpd = new DeviceControlSpd(DeviceControlSpd.PowerType.NEW_MAIN_FG, 170, 156, 9);
 
         } catch (SecurityException e) {
             e.printStackTrace();
