@@ -61,10 +61,16 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
 
         serialPortSpd = new SerialPortSpd();
         try {
-            serialPortSpd.OpenSerial(SerialPortSpd.SERIAL_TTYS1, 9600);
+
+            if(MyApp.getModel().contains("GT100-PD")){
+                serialPortSpd.OpenSerial(SerialPortSpd.SERIAL_TTYS0, 9600);
+            }else if(MyApp.getModel().contains("KT50-6762")){
+                serialPortSpd.OpenSerial(SerialPortSpd.SERIAL_TTYS1, 9600);
+            }else {
+                serialPortSpd.OpenSerial(SerialPortSpd.SERIAL_TTYS1, 9600);
+            }
 
         } catch (IOException e) {
-            e.printStackTrace();
             contView.setText(R.string.Status_OpenSerialFail);
             powerBtn.setEnabled(false);
             clearBtn.setEnabled(false);
@@ -78,10 +84,17 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
             //DevCtrl = new DeviceControl("/sys/class/misc/mtgpio/pin");
             //MTK(6763)平台安卓8.1版本  主板上电路径(例如：SD55、SD60)
             //DevCtrl = new DeviceControl("/sys/bus/platform/drivers/mediatek-pinctrl/10005000.pinctrl/mt_gpio");
-            deviceControlSpd = new DeviceControlSpd(DeviceControlSpd.PowerType.NEW_MAIN_FG, 170, 156, 9);
+
+            if(MyApp.getModel().contains("GT100-PD")){
+                deviceControlSpd = new DeviceControlSpd(DeviceControlSpd.PowerType.NEW_MAIN_FG, 15);
+            }else if(MyApp.getModel().contains("KT50-6762")){
+                deviceControlSpd = new DeviceControlSpd(DeviceControlSpd.PowerType.NEW_MAIN_FG, 170, 156, 9);
+            }else {
+                deviceControlSpd = new DeviceControlSpd(DeviceControlSpd.PowerType.NEW_MAIN_FG, 170, 156, 9);
+            }
 
         } catch (SecurityException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } catch (IOException e) {
             contView.setText(R.string.Status_OpenDevFileFail);
             powerBtn.setEnabled(false);
@@ -395,7 +408,7 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                 reader.interrupt();
                 deviceControlSpd.PowerOffDevice();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
         serialPortSpd.CloseSerial(fd);
@@ -412,8 +425,7 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                 try {
                     Thread.sleep(5);
                 } catch (InterruptedException e) {
-
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
 
                 serialPortSpd.clearPortBuf(fd);
@@ -429,8 +441,7 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                 try {
                     Thread.sleep(3);
                 } catch (InterruptedException e) {
-
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
 
                 deviceControlSpd.PowerOffDevice();
@@ -463,7 +474,7 @@ public class LFRFIDActivity extends Activity implements OnCheckedChangeListener,
                     serialPortSpd.clearPortBuf(fd);
                     buf = serialPortSpd.ReadSerial(fd, BUFSIZE, 300);
                 } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
                 if (buf != null) {
                     Message msg = new Message();
